@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小守的综合查询</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f7ff;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            margin-top: 2rem;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+        
+        .result-content {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--light);
+            border: 1px solid #e0e0e0;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            background-color: #e9ecef;
+            color: var(--gray);
+        }
+        
+        .status-indicator.active {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>小守的综合查询</h1>
+                <p class="subtitle">作者TG：@OvOxiaoshou</p>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="input">查询参数</label>
+                    <input type="text" id="input" class="input-field" placeholder="请输入查询内容..." autofocus>
+                </div>
+                
+                <button id="submit-btn" class="btn" onclick="sendRequest()">
+                    <span id="btn-text">查询</span>
+                </button>
+                
+                <div class="result-container">
+                    <div class="result-header">
+                        <span class="result-title">查询结果</span>
+                        <span id="status" class="status-indicator">就绪</span>
+                    </div>
+                    <div id="result" class="result-content">结果将显示在这里...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2023 综合查询工具 | 接口: qhai.star666.cloud
+    </footer>
+
+    <script>
+        async function sendRequest() {
+            const input = document.getElementById('input').value.trim();
+            const resultDiv = document.getElementById('result');
+            const statusIndicator = document.getElementById('status');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            
+            if(!input) {
+                resultDiv.textContent = "请输入有效的查询内容";
+                statusIndicator.textContent = "错误";
+                statusIndicator.classList.add('active');
+                return;
+            }
+            
+            // 更新UI状态
+            resultDiv.textContent = "";
+            statusIndicator.textContent = "查询中...";
+            statusIndicator.classList.add('active');
+            submitBtn.disabled = true;
+            btnText.innerHTML = `<span class="loading"></span>处理中...`;
+            
+            try {
+                // 使用提供的API接口
+                const url = `http://qhai.star666.cloud/vipapi/v1/cx.php?key=@sishouttkx&text=${encodeURIComponent(input)}`;
+                
+                // 添加跨域代理（实际使用时可能需要根据情况调整）
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                
+                // 处理响应数据
+                if(data.contents) {
+                    resultDiv.textContent = data.contents;
+                } else if(data) {
+                    resultDiv.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    resultDiv.textContent = "未收到有效响应数据";
+                }
+                statusIndicator.textContent = "完成";
+            } catch (error) {
+                resultDiv.textContent = `请求失败: ${error.message}`;
+                statusIndicator.textContent = "失败";
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "查询";
+            }
+        }
+        
+        // 添加回车键触发功能
+        document.getElementById('input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendRequest();
+            }
+        });
+    </script>
+</body>
+</html>
